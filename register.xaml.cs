@@ -59,100 +59,24 @@ namespace WpfApp1
             var context = new AppDbContext();
 
             // Проверка длины пароля
-            if (pass.Length < 6) // Условие на минимальную длину пароля
+            if (pass.Length < 6 && login.Length < 6) // Условие на минимальную длину пароля
             {
                 passwordT.Text = "Короткий пароль";
                 passwordT.BorderBrush = Brushes.Red;
-                return;
-            }
-
-            // Проверка наличия специальных символов в пароле (пример)
-            if (pass.Contains('&'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (pass.Contains('$'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (pass.Contains('#'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (pass.Contains('@'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (pass.Contains('!'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (pass.Contains('^'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-            if (pass.Contains('*'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            //Login
-            if (login.Length < 6)
-            {
                 usernameT.Text = "Имя слишком короткое";
                 usernameT.BorderBrush = Brushes.Red;
                 return;
             }
 
-            if (login.Contains('&'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
+            // Проверка наличия специальных символов в пароле (пример)
 
-            if (login.Contains('$'))
+            if (pass.Contains('&') | pass.Contains('$') | pass.Contains('#') | pass.Contains('@')
+                | pass.Contains('!') | pass.Contains('^') | pass.Contains('*') && login.Contains('&')
+                | login.Contains('$') | login.Contains('#') | login.Contains('@')
+                | login.Contains('!') | login.Contains('^') | login.Contains('*'))
             {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('#'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('@'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('!'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('^'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-            if (login.Contains('*'))
-            {
+                passwordT.Text = "недопустимый символ";
+                passwordT.BorderBrush = Brushes.Red;
                 usernameT.Text = "недопустимый символ";
                 usernameT.BorderBrush = Brushes.Red;
             }
@@ -177,7 +101,7 @@ namespace WpfApp1
                 var user = new User { Login = login, Password = pass, Email = email };
                 context.Users.Add(user);
                 context.SaveChanges();
-                Window2 Welcom = new Window2();
+                vxod Welcom = new vxod();
                 Welcom.Show();
                 this.Close();
             }

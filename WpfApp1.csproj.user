@@ -19,7 +19,7 @@
     <Compile Update="TopAkk.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Vxod.xaml.cs">
+    <Compile Update="vxod.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Yshe.xaml.cs">
@@ -42,7 +42,7 @@
     <Page Update="TopAkk.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Vxod.xaml">
+    <Page Update="vxod.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Yshe.xaml">

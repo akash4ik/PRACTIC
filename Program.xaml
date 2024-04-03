@@ -8,7 +8,17 @@
         Title="Program" Height="450" Width="800">
     <Grid>
         <StackPanel Margin="10">
-            <TextBlock Text="Типо программа типо зашел" FontSize="54" Margin="0,150,0,0" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock  Text="{Binding Login, StringFormat='Личный кабинет, {0}!'}" FontSize="50" Margin="0,10,0,0" FontWeight="Bold" Foreground="Black"/>
+            <TextBox Margin="0,50,10,0" Width="350" Height="50" FontSize="25" x:Name="emailT"/>
+            <TextBox Margin="0,50,10,0" Width="350" Height="50" FontSize="25" x:Name="passT"/>
+        </StackPanel>
+        <StackPanel>
+            <Image Source="Picture/email.png" Width="50" Height="50" Margin="0,137,420,0"/>
+            <Image Source="Picture/pass.png" Width="50" Height="50" Margin="0,50,410,0"/>
+        </StackPanel>
+        <StackPanel>
+            <Button x:Name="emailizm" Click="emailizm_Click" Content="Изменить" Width="100" Height="50" FontSize="20" FontWeight="Bold" Background="LightGreen" Margin="480,137,0,0"/>
+            <Button x:Name="passizm" Click="passizm_Click" Content="Изменить" Width="100" Height="50" FontSize="20" FontWeight="Bold" Background="LightGreen" Margin="480,50,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

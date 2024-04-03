@@ -19,9 +19,25 @@ namespace WpfApp1
     /// </summary>
     public partial class Program : Window
     {
-        public Program()
+        public string Login { get; set; }
+
+        public Program(string login)
         {
             InitializeComponent();
+            Login = login;
+            DataContext = this;
+        }
+
+        
+
+        private void passizm_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void emailizm_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
