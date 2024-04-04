@@ -7,10 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Nepravpass.xaml.cs">
+    <Compile Update="Kabinet.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Program.xaml.cs">
+    <Compile Update="Nepravpass.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="register.xaml.cs">
@@ -19,7 +19,7 @@
     <Compile Update="TopAkk.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Vxod.xaml.cs">
+    <Compile Update="vxod.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Yshe.xaml.cs">
@@ -27,13 +27,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Kabinet.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Nepravpass.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Program.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="register.xaml">
@@ -42,7 +42,7 @@
     <Page Update="TopAkk.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Vxod.xaml">
+    <Page Update="vxod.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Yshe.xaml">

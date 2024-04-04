@@ -19,14 +19,17 @@ namespace WpfApp1
     /// </summary>
     public partial class TopAkk : Window
     {
-        public TopAkk()
+        public string Login {  get; set; }
+        public TopAkk(string login)
         {
             InitializeComponent();
+            Login = login;
+            DataContext = this;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Program pr = new Program();
+            Kabinet pr = new Kabinet(Login);
             pr.Show();
             this.Close();
         }

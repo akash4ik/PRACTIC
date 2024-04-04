@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,8 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+        
+
         public class User
         {
             public int ID { get; set; }
@@ -28,151 +32,86 @@ namespace WpfApp1
             public string Password { get; set; }
             public string Email { get; set; }
         }
+
+
         public class AppDbContext : DbContext
         {
             public DbSet<User> Users { get; set; }
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                 optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;myBd Catalog=zakharovBd;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                 optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=zakharovBd;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             }
         }
+
+        private int failedAttempts = 0;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             var login = usernameT.Text;
             var password = passwordT.Text;
             var context = new AppDbContext();
 
             // Проверка длины пароля
-            if (password.Length < 6) // Условие на минимальную длину пароля
+            if (password.Length < 6 && login.Length < 6) // Условие на минимальную длину пароля
             {
-                passwordT.Text = "Короткий пароль";
+                
                 passwordT.BorderBrush = Brushes.Red;
+                
+                usernameT.BorderBrush = Brushes.Red;
                 return;
             }
 
             // Проверка наличия специальных символов в пароле (пример)
-            if (password.Contains('&'))
+                
+            if (password.Contains('&') | password.Contains('$') | password.Contains('#') | password.Contains('@')
+                | password.Contains('!') | password.Contains('^') | password.Contains('*') && login.Contains('&')
+                | login.Contains('$') | login.Contains('#') | login.Contains('@')
+                | login.Contains('!') | login.Contains('^') | login.Contains('*'))
             {
                 passwordT.Text = "недопустимый символ";
                 passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (password.Contains('$'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (password.Contains('#'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (password.Contains('@'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (password.Contains('!'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            if (password.Contains('^'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-            if (password.Contains('*'))
-            {
-                passwordT.Text = "недопустимый символ";
-                passwordT.BorderBrush = Brushes.Red;
-            }
-
-            //Login
-            if (login.Length < 6)
-            {
-                usernameT.Text = "Имя слишком короткое";
-                usernameT.BorderBrush = Brushes.Red;
-                return;
-            }
-
-            if (login.Contains('&'))
-            {
                 usernameT.Text = "недопустимый символ";
                 usernameT.BorderBrush = Brushes.Red;
             }
-
-            if (login.Contains('$'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('#'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('@'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('!'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
-            if (login.Contains('^'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-            if (login.Contains('*'))
-            {
-                usernameT.Text = "недопустимый символ";
-                usernameT.BorderBrush = Brushes.Red;
-            }
-
+            
             var user = context.Users.SingleOrDefault(x => x.Login == login && x.Password == password);
-            if (user is null)
+            failedAttempts++;
+            
+            if (user is null || failedAttempts == 3)
             {
+                // Блокируем пользователя
                 Nepravpass pass = new Nepravpass();
                 pass.Show();
                 this.Close();
+                Task.Delay(15000).GetAwaiter().GetResult(); // Асинхронная задержка в 15 секунд
+                DisableInputFieldsAndButtons();
+                usernameT.BorderBrush = Brushes.Red;
+                passwordT.BorderBrush = Brushes.Red;
+
             }
+            
             else
             {
-                TopAkk akk = new TopAkk();
+                // Успешная авторизация
+                failedAttempts = 0; // Сбрасываем счетчик попыток
+                TopAkk akk = new TopAkk(login);
                 akk.Show();
                 this.Close();
-            }
-        }
-        private bool isPasswordVisible = false;
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            isPasswordVisible = !isPasswordVisible;
 
-            if (isPasswordVisible)
-            {
-                // Если текст пароля видимый - скрываем и меняем иконку на закрытый глаз
-                passwordT.Visibility = Visibility.Visible;
-                eye.Source = new BitmapImage(new Uri("eyecclose.png", UriKind.Relative));
             }
-            else
-            {
-                // Если текст пароля скрытый - показываем и меняем иконку на открытый глаз
-                passwordT.Visibility = Visibility.Visible;
-                eye1.Source = new BitmapImage(new Uri("eye.png", UriKind.Relative));
-            }
+            
+            
+            
         }
+        private void DisableInputFieldsAndButtons()
+        {
+            // Отключение полей ввода и кнопок
+            usernameT.IsEnabled = false;
+            passwordT.IsEnabled = false;
+            ButtonVoiti.IsEnabled = false;
+        }
+
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -180,6 +119,65 @@ namespace WpfApp1
             Window1 registerWindow = new Window1();
             registerWindow.Show();
             this.Close();
+        }
+
+        
+
+        private void usernameT_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Text == textBox.Tag)
+            {
+                textBox.Text = "";
+            }
+        }
+
+        private void usernameT_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = textBox.Tag?.ToString() ?? "";
+            }
+        }
+
+        private void passwordT_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Text == textBox.Tag)
+            {
+                textBox.Text = "";
+            }
+        }
+
+        private void passwordT_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = textBox.Tag?.ToString() ?? "";
+            }
+        }
+       
+        
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            
+                passwordBox.Password = passwordT.Text;
+                passwordBox.Visibility = Visibility.Hidden;
+                Vis.Visibility = Visibility.Hidden;
+                Invis.Visibility = Visibility.Visible;
+            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            
+                passwordT.Text = passwordBox.Password;
+                passwordBox.Visibility = Visibility.Hidden;
+                Invis.Visibility = Visibility.Visible;
+                Vis.Visibility = Visibility.Hidden;
         }
     }
 }

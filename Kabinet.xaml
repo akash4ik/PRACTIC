@@ -1,0 +1,24 @@
+﻿<Window x:Class="WpfApp1.Kabinet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Kabinet" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="10">
+            <TextBlock  Text="{Binding Login, StringFormat='Личный кабинет, {0}!'}" FontSize="50" Margin="0,10,0,0" FontWeight="Bold" Foreground="Black"/>
+            <TextBox x:Name="NewEmail" Tag="Введите Email" Text="Введите Email" GotFocus="NewEmail_GotFocus" LostFocus="NewEmail_LostFocus" Margin="0,50,10,0" Width="350" Height="50" FontSize="25"/>
+            <TextBox x:Name="Newepass" Tag="Введите Пароль" Text="Введите Пароль" GotFocus="Newepass_GotFocus" LostFocus="Newepass_LostFocus" Margin="0,50,10,0" Width="350" Height="50" FontSize="25"/>
+        </StackPanel>
+        <StackPanel>
+            <Image Source="Picture/email.png" Width="50" Height="50" Margin="0,137,420,0"/>
+            <Image Source="Picture/pass.png" Width="50" Height="50" Margin="0,50,410,0"/>
+        </StackPanel>
+        <StackPanel>
+            <Button x:Name="emailizm" Click="emailizm_Click" Content="Изменить" Width="100" Height="50" FontSize="20" FontWeight="Bold" Background="LightGreen" Margin="480,137,0,0"/>
+            <Button x:Name="passizm" Click="passizm_Click" Content="Изменить" Width="100" Height="50" FontSize="20" FontWeight="Bold" Background="LightGreen" Margin="480,50,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
